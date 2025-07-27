@@ -9,6 +9,28 @@ Edit
     <title>جیهیون مون</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
+  <script>
+  fetch('updates.json')
+    .then(response => response.json())
+    .then(data => {
+      const list = document.getElementById('update-list');
+      list.innerHTML = '';
+      data.slice(0, 6).forEach(update => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = update.link;
+        a.textContent = update.title;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+    })
+    .catch(error => {
+      console.error('خطا در بارگذاری آپدیت‌ها:', error);
+      document.getElementById('update-list').innerHTML = '<li>عدم دریافت اطلاعات.</li>';
+    });
+</script>
+  
 <body>
     <header>
         <h1>به دنیای جیهیون خوش آمدید</h1>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>پنل مدیریت جیهیون مون</title>
+  <style>
+    body { font-family: sans-serif; background: #1a1a2e; color: #fff; padding: 20px; }
+    input, button, textarea { font-size: 16px; padding: 8px; margin-top: 10px; }
+    .list { margin-top: 30px; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>🔐 پنل مدیریت جیهیون</h1>
+
+  <label for="update">آپدیت جدید:</label><br>
+  <input type="text" id="update" placeholder="مثلاً: قسمت 4 خط اس اضافه شد.">
+  <button onclick="addUpdate()">➕ افزودن</button>
+
+  <h2>📋 آپدیت‌ها</h2>
+  <ul id="update-list"></ul>
+
+  <h3>📤 خروجی JSON برای قرار دادن در updates.json</h3>
+  <textarea id="json-output" rows="10" cols="50" readonly></textarea>
+
+  <script>
+    let updates = [];
+
+    function addUpdate() {
+      const text = document.getElementById('update').value.trim();
+      if (!text) return alert('لطفاً متنی وارد کنید!');
+      updates.push({ text });
+      document.getElementById('update').value = '';
+      renderUpdates();
+    }
+
+    function renderUpdates() {
+      const ul = document.getElementById('update-list');
+      ul.innerHTML = '';
+      updates.forEach((item, i) => {
+        const li = document.createElement('li');
+        li.textContent = item.text + ' ';
+        const del = document.createElement('button');
+        del.textContent = '❌';
+        del.onclick = () => { updates.splice(i, 1); renderUpdates(); };
+        li.appendChild(del);
+        ul.appendChild(li);
+      });
+
+      // نمایش خروجی JSON
+      document.getElementById('json-output').value = JSON.stringify(updates, null, 2);
+    }
+  </script>
+</body>
+</html>
